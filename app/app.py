@@ -130,7 +130,7 @@ def generar_xml(xml_file, translation_method='google'):
     # Cargar el diccionario de traducciones desde un archivo (diccionario.txt)
     translation_dict = {}
     try:
-        with open('diccionarioprevio.txt', 'r', encoding='utf-8') as dict_file:
+        with open('diccionarios/diccionarioprevio.txt', 'r', encoding='utf-8') as dict_file:
             for line in dict_file:
                 key, value = line.strip().split('~')
                 # Comprobamos si la palabra ya existe en el diccionario si no existe la añadimos
@@ -140,7 +140,7 @@ def generar_xml(xml_file, translation_method='google'):
         print("El archivo de diccionario no se encontró.")
 
     try:
-        with open('diccionario.txt', 'r', encoding='utf-8') as dict_file:
+        with open('diccionarios/diccionario.txt', 'r', encoding='utf-8') as dict_file:
             for line in dict_file:
                 key, value = line.strip().split('~')
                 if key not in translation_dict:
@@ -151,7 +151,7 @@ def generar_xml(xml_file, translation_method='google'):
 
     translation_dict_Individual = {}
     try:
-        with open('diccionario_arreglos.txt', 'r', encoding='utf-8') as dict_file:
+        with open('diccionarios/diccionario_arreglos.txt', 'r', encoding='utf-8') as dict_file:
             for line in dict_file:
                 key, value = line.strip().split('~')
                 translation_dict_Individual[key] = value
