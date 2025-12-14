@@ -47,18 +47,16 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 def translate_with_deepseek(text, api_key):
-    """Traducir texto usando DeepSeek API"""
+    """Traducir texto usando DeepSeek API con OpenAI SDK 0.28.1"""
     try:
-        OpenAI = import_openai()
-        if OpenAI is None:
-            return None
-            
-        client = OpenAI(
-            api_key=api_key,
-            base_url="https://api.deepseek.com"
-        )
+        import openai
         
-        response = client.chat.completions.create(
+        # Configurar la API key y base URL para DeepSeek
+        openai.api_key = api_key
+        openai.api_base = "https://api.deepseek.com/v1"
+        
+        # Usar la API antigua de OpenAI (v0.28.1)
+        response = openai.ChatCompletion.create(
             model="deepseek-chat",
             messages=[
                 {"role": "system", "content": "You are a professional translator. Translate the following text from English to Spanish. Only return the translation, nothing else."},
@@ -68,7 +66,7 @@ def translate_with_deepseek(text, api_key):
             max_tokens=500
         )
         
-        return response.choices[0].message.content.strip()
+        return response['choices'][0]['message']['content'].strip()
     except Exception as e:
         print(f"Error en DeepSeek API: {e}")
         return None
