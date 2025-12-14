@@ -6,8 +6,8 @@ Traductor automático de extensiones de Business Central de inglés a español c
 
 - **Múltiples motores de traducción:**
   - Google Translate (gratuito)
-  - Google Gemini AI
-  - DeepSeek AI
+  - Google Gemini AI (deshabilitado por el momento)
+  - DeepSeek AI (deshabilitado por el momento)
   
 - **Diccionario estándar de Business Central:** Prioriza la terminología oficial
 - **Correcciones automáticas:** Ajusta traducciones para mantener consistencia con el estándar
@@ -16,7 +16,7 @@ Traductor automático de extensiones de Business Central de inglés a español c
 
 ## 📋 Requisitos
 
-- Python 3.8+
+- Python 3.10.11+
 - Docker (opcional)
 
 ## 🔧 Instalación
@@ -179,9 +179,9 @@ Este proyecto está bajo la licencia MIT.
 
 ## 👤 Autor
 
-**Adrián Espí Peña**
+**Adrián Espí**
 
-- LinkedIn: [Adrián Espí Peña](https://www.linkedin.com/in/adri%C3%A1n-esp%C3%AD-pe%C3%B1a-a74304185/)
+- LinkedIn: [Adrián Espí](https://www.linkedin.com/in/adri%C3%A1n-esp%C3%AD-pe%C3%B1a-a74304185/)
 - YouTube: [Canal de YouTube](https://www.youtube.com/channel/UCa9c3-J_onhqTzerBmbXWBw)
 - Portfolio: [zurichk.github.io](https://zurichk.github.io/)
 
