@@ -3,9 +3,16 @@ services:
   web:
     build: .
     ports:
-      - "5000:5000"
+      - "5039:5039"
     environment:
       - DOCKER=yes
+      - FLASK_PORT=5039
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    env_file:
+      - .env
+    volumes:
+      - ./app/traducciones:/usr/src/app/traducciones
 
   # chrome:
   #     #image: selenium/standalone-chrome:latest

@@ -2,7 +2,7 @@ FROM python:3.8.4-slim-buster
 #FROM python:3.8-alpine
 
 RUN mkdir /usr/src/app/
-COPY ./code /usr/src/app/
+COPY ./app /usr/src/app/
 WORKDIR /usr/src/app/
 
 #COPY ./requirements.txt /usr/src/app/requirements.txt
@@ -19,6 +19,6 @@ RUN pip install --no-cache-dir --upgrade -r /usr/src/app/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-EXPOSE 5000
+EXPOSE 5039
 
-CMD ["flask", "run", "--host", "0.0.0.0"]
+CMD ["python", "app.py"]

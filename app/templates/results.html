@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .results-container {
+    padding: 2rem 0;
+  }
+  
+  .success-badge {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+  
+  .success-badge i {
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .stat-card {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+  }
+  
+  .stat-icon {
+    font-size: 2rem;
+    color: #667eea;
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1d29;
+    margin: 0.5rem 0;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+  
+  .output-section {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-left: 4px solid #667eea;
+  }
+  
+  .output-section pre {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1rem 0 0 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #495057;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .btn-download {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .btn-download:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(102, 126, 234, 0.5);
+    color: white;
+  }
+  
+  .btn-download i {
+    font-size: 1.2rem;
+    margin-right: 0.75rem;
+  }
+  
+  .btn-home {
+    background: white;
+    border: 2px solid #667eea;
+    color: #667eea;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .btn-home:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+  }
+  
+  .btn-home i {
+    font-size: 1.2rem;
+    margin-right: 0.75rem;
+  }
+</style>
+
+<div class="results-container">
+  <div class="text-center">
+    <div class="success-badge">
+      <i class="bi bi-check-circle-fill"></i>
+      <span>Traducción Completada</span>
+    </div>
+  </div>
+  
+  <div class="stats-grid">
+    <div class="stat-card">
+      <i class="bi bi-file-earmark-text stat-icon"></i>
+      <div class="stat-value" id="sourceCount">-</div>
+      <div class="stat-label">Etiquetas Source</div>
+    </div>
+    
+    <div class="stat-card">
+      <i class="bi bi-file-earmark-check stat-icon"></i>
+      <div class="stat-value" id="targetCount">-</div>
+      <div class="stat-label">Etiquetas Target</div>
+    </div>
+    
+    <div class="stat-card">
+      <i class="bi bi-book stat-icon"></i>
+      <div class="stat-value" id="standardCount">-</div>
+      <div class="stat-label">Desde Diccionario</div>
+    </div>
+    
+    <div class="stat-card">
+      <i class="bi bi-translate stat-icon"></i>
+      <div class="stat-value" id="translatedCount">-</div>
+      <div class="stat-label">Traducidas por IA</div>
+    </div>
+    
+    <div class="stat-card">
+      <i class="bi bi-wrench stat-icon"></i>
+      <div class="stat-value" id="fixedCount">-</div>
+      <div class="stat-label">Correcciones</div>
+    </div>
+  </div>
+  
+  <div class="output-section">
+    <h5><i class="bi bi-info-circle me-2"></i>Detalles de la Traducción</h5>
+    <pre>{{ text1|safe }}</pre>
+  </div>
+  
+  <div class="action-buttons">
+    {% if text and text != "" %}
+    <form action="{{ url_for('download', filename=text) }}" method="get" style="margin: 0;">
+      <button type="submit" class="btn-download">
+        <i class="bi bi-download"></i>
+        Descargar Archivo Traducido
+      </button>
+    </form>
+    {% endif %}
+    
+    <a href="/" class="btn-home">
+      <i class="bi bi-house-door"></i>
+      Nueva Traducción
+    </a>
+  </div>
+</div>
+
+<script>
+  // Extraer estadísticas del texto
+  const text = `{{ text1|safe }}`;
+  
+  // Expresiones regulares para extraer números
+  const sourceMatch = text.match(/etiquetas source:\s*(\d+)/i);
+  const targetMatch = text.match(/etiquetas target:\s*(\d+)/i);
+  const standardMatch = text.match(/diccionario del Standard:\s*(\d+)/i);
+  const googleMatch = text.match(/Traductor de Google:\s*(\d+)/i);
+  const fixedMatch = text.match(/diccionario de arreglos:\s*(\d+)/i);
+  
+  // Actualizar valores
+  if (sourceMatch) document.getElementById('sourceCount').textContent = sourceMatch[1];
+  if (targetMatch) document.getElementById('targetCount').textContent = targetMatch[1];
+  if (standardMatch) document.getElementById('standardCount').textContent = standardMatch[1];
+  if (googleMatch) document.getElementById('translatedCount').textContent = googleMatch[1];
+  if (fixedMatch) document.getElementById('fixedCount').textContent = fixedMatch[1];
+</script>
+{% endblock %}
